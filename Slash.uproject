@@ -28,6 +28,10 @@
 		{
 			"Name": "WebAuth",
 			"Enabled": true
+		},
+		{
+			"Name": "EnhancedInput",
+			"Enabled": true
 		}
 	]
 }
