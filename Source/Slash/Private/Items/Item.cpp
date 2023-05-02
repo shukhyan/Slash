@@ -2,9 +2,9 @@
 
 
 #include "Items/Item.h"
-
 #include "Components/SphereComponent.h"
 #include "Slash/DebugMacros.h"
+#include "Characters/SlashCharacter.h"
 
 AItem::AItem()
 {
@@ -38,21 +38,33 @@ float AItem::TransformedCos()
 void AItem::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	const FString OtherActorName = OtherActor->GetName();
-	if (GEngine)
+	ASlashCharacter* SlashCharacter = Cast<ASlashCharacter>(OtherActor);
+	if (SlashCharacter)
 	{
-		GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Red, OtherActorName);
+		SlashCharacter->SetOverlappingItem(this);
 	}
+	
+	// const FString OtherActorName = OtherActor->GetName();
+	// if (GEngine)
+	// {
+	// 	GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Red, OtherActorName);
+	// }
 }
 
 void AItem::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-	const FString OtherActorName = FString("Ending overlap with: ") + OtherActor->GetName();
-	if (GEngine)
+	ASlashCharacter* SlashCharacter = Cast<ASlashCharacter>(OtherActor);
+	if (SlashCharacter)
 	{
-		GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Blue, OtherActorName);
+		SlashCharacter->SetOverlappingItem(nullptr);
 	}
+	
+	// const FString OtherActorName = FString("Ending overlap with: ") + OtherActor->GetName();
+	// if (GEngine)
+	// {
+	// 	GEngine->AddOnScreenDebugMessage(1, 30.f, FColor::Blue, OtherActorName);
+	// }
 }
 
 void AItem::Tick(float DeltaTime)
