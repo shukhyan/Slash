@@ -13,6 +13,7 @@ class UInputAction;
 class USpringArmComponent;
 class UCameraComponent;
 class AItem;
+class UAnimMontage;
 
 UCLASS()
 class SLASH_API ASlashCharacter : public ACharacter
@@ -42,18 +43,36 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction* EquipAction;
 
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* AttackAction;
+
+	/*
+	 * Callbacks for input
+	 */
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 	void EKeyPressed();
-	
+	void Attack();
+
 	// Old way
 	// void MoveForward(float Value);
 	// void MoveRight(float Value);
 	// void Turn(float Value);
 	// void LookUp(float Value);
 
+	/*
+	 * Play montage functions
+	 */
+	void PlayAttackMontage();
+	UFUNCTION(BlueprintCallable)
+	void AttackEnd();
+	bool CanAttack();
+
 private:
 	ECharacterState CharacterState = ECharacterState::ECS_Unequipped;
+
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	EActionState ActionState = EActionState::EAS_Unoccupied;
 	
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* SpringArm;
@@ -62,9 +81,15 @@ private:
 	UCameraComponent* ViewCamera;
 
 	UPROPERTY(VisibleInstanceOnly)
-	AItem* OverlappedItem;
+	AItem* OverlappingItem;
+
+	/*
+	 * Animation montages
+	 */
+	UPROPERTY(EditDefaultsOnly, Category = Montages)
+	UAnimMontage* AttackMontage;
 
 public:
-	FORCEINLINE void SetOverlappingItem(AItem* item) { OverlappedItem = item; }
+	FORCEINLINE void SetOverlappingItem(AItem* item) { OverlappingItem = item; }
 	FORCEINLINE ECharacterState GetCharacterState() const { return CharacterState; }
 };
