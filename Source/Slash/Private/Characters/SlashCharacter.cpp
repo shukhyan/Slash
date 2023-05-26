@@ -155,7 +155,7 @@ void ASlashCharacter::PlayAttackMontage()
 
 void ASlashCharacter::PlayEquipMontage(FName SectionName)
 {
-	UAnimInstance* AnimInstance = GetMesh() ->GetAnimInstance();
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 	if (AnimInstance && EquipMontage)
 	{
 		AnimInstance->Montage_Play(EquipMontage);
