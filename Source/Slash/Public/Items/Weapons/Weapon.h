@@ -19,7 +19,9 @@ class SLASH_API AWeapon : public AItem
 public:
 	AWeapon();
 	void Equip(USceneComponent* InParent, FName InSocketName);
-	void AttackMeshToSocket(USceneComponent* InParent, FName InSocketName);
+	void AttachMeshToSocket(USceneComponent* InParent, FName InSocketName);
+
+	TArray<AActor*> IgnoreActors;
 	
 protected:
 	virtual void BeginPlay() override;
