@@ -8,6 +8,8 @@
 #include "Enemy.generated.h"
 
 class UAnimMontage;
+class UAttributeComponent;
+class UHealthBarComponent;
 
 UCLASS()
 class SLASH_API AEnemy : public ACharacter, public IHitInterface
@@ -30,6 +32,12 @@ protected:
 	void PlayHitReactMontage(const FName& SectionName);
 
 private:
+	UPROPERTY(VisibleAnywhere)
+	UAttributeComponent* Attributes;
+
+	UPROPERTY(VisibleAnywhere)
+	UHealthBarComponent* HealthBarWidget;
+
 	/*
 	 * Animation montages
 	 */
